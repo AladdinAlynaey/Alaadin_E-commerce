@@ -1,0 +1,272 @@
+.cartLayout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cartItem {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.cartItem:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.imgWrap {
+  width: 80px;
+  height: 80px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-tertiary);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.qtyBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.qtyBtn:hover {
+  background: var(--bg-secondary);
+}
+
+.qtyVal {
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.price {
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 100px;
+  text-align: end;
+  font-size: 16px;
+}
+
+.deleteBtn {
+  color: var(--text-tertiary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+  border-radius: 50%;
+}
+
+.deleteBtn:hover {
+  color: var(--error);
+  background: var(--primary-glow);
+}
+
+.summaryCard {
+  padding: 24px;
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  height: fit-content;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.summaryTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.summaryLabel {
+  color: var(--text-secondary);
+}
+
+.summaryValue {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.summaryDivider {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totalLabel {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.totalValue {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.checkoutBtn {
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .cartLayout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .cartItem {
+    padding: 14px;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .imgWrap {
+    width: 70px;
+    height: 70px;
+  }
+
+  .itemDetails {
+    gap: 2px;
+  }
+
+  .itemTitle {
+    font-size: 14px;
+    margin-bottom: 2px;
+    padding-right: 20px;
+  }
+
+  :global([dir="rtl"]) .itemTitle {
+    padding-right: 0;
+    padding-left: 20px;
+  }
+
+  .price {
+    font-size: 14px;
+    text-align: left;
+    min-width: auto;
+    margin-top: 4px;
+  }
+
+  :global([dir="rtl"]) .price {
+    text-align: right;
+  }
+
+  .deleteBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px;
+  }
+
+  :global([dir="rtl"]) .deleteBtn {
+    right: auto;
+    left: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cartItem {
+    flex-wrap: wrap;
+  }
+
+  .itemDetails {
+    width: calc(100% - 82px);
+    flex: none;
+  }
+
+  .actionRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  .price {
+    margin-top: 0;
+  }
+}

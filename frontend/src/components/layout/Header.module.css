@@ -1,0 +1,373 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-block-end: 1px solid var(--bg-glass-border);
+  height: var(--header-height);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: var(--space-lg);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  font-size: 28px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logoText {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.navLink {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.actionBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+.langBtn {
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  transition: all var(--transition-fast);
+}
+
+.langBtn:hover {
+  border-color: var(--primary-light);
+  background: var(--bg-secondary);
+}
+
+.currencySelect {
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.currencySelect:hover { border-color: var(--primary-light); }
+
+.cartBtn { position: relative; }
+
+.cartBadge {
+  position: absolute;
+  top: 2px;
+  inset-inline-end: 2px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  animation: fadeIn 0.3s ease;
+}
+
+.userMenu {
+  position: relative;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  min-width: 180px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-xs);
+  z-index: 200;
+}
+
+.dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: transparent;
+}
+
+.userMenu:hover .dropdown { display: block; }
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: start;
+  transition: all var(--transition-fast);
+}
+
+.dropdownItem:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.menuToggle { display: none; }
+
+/* Mobile-only menu items (hidden on desktop) */
+.mobileDivider,
+.mobileMenuLink,
+.mobileCurrencyItem,
+.bottomNav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    background: var(--bg-secondary) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    z-index: 100 !important;
+  }
+
+  .nav {
+    display: none;
+    position: fixed;
+    top: var(--header-height);
+    inset-inline-start: 0;
+    right: 0;
+    left: 0;
+    bottom: 60px; /* Restrict height so it doesn't overlap the bottom navigation bar */
+    background: var(--bg-secondary);
+    flex-direction: column;
+    padding: var(--space-lg);
+    gap: var(--space-sm);
+    z-index: 99;
+    overflow-y: auto; /* Allow scrolling on short screens */
+  }
+
+  .navOpen { display: flex; }
+
+  .navLink {
+    font-size: 18px;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .menuToggle { display: flex; }
+
+  /* Hide all actions except Cart and Hamburger Menu on mobile header */
+  .actions > *:not(.cartBtn):not(.menuToggle) {
+    display: none !important;
+  }
+
+  .mobileDivider {
+    display: block;
+    height: 1px;
+    background: var(--border);
+    margin-block: var(--space-md);
+    width: 100%;
+  }
+
+  .mobileMenuLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    width: 100%;
+    text-align: start;
+    transition: background-color var(--transition-fast);
+  }
+
+  .mobileMenuLink:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .mobileMenuLink svg {
+    color: var(--text-secondary);
+  }
+
+  .mobileCurrencyItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 12px 16px;
+    width: 100%;
+  }
+
+  .mobileCurrencyItem svg {
+    color: var(--text-secondary);
+  }
+
+  .mobileCurrencyLabel {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .mobileCurrencySelect {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 4px 8px;
+    cursor: pointer;
+    margin-inline-start: auto;
+  }
+
+  /* Bottom Navigation Styles */
+  .bottomNav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-secondary) !important; /* Solid background to prevent overlap transparency */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-top: 1px solid var(--border) !important;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .bottomNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    flex: 1;
+    height: 100%;
+  }
+
+  .bottomNavItem:hover,
+  .bottomNavItemActive {
+    color: var(--primary);
+  }
+
+  .bottomNavItemActive svg {
+    transform: scale(1.1);
+    stroke: var(--primary);
+  }
+
+  .bottomNavItemIcon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+  }
+
+  .bottomNavBadge {
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 4px;
+  }
+
+  /* Pad the page content so the fixed header and bottom nav don't cover elements */
+  :global(body) {
+    padding-top: var(--header-height) !important;
+    padding-bottom: 60px !important;
+  }
+}

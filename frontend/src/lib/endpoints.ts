@@ -1,0 +1,17 @@
+export const API_ENDPOINTS = {
+  auth: { login: '/auth/login', register: '/auth/register', logout: '/auth/logout', refresh: '/auth/refresh' },
+  users: { profile: '/users/profile', update: '/users/profile', changePassword: '/users/profile/password' },
+  settings: '/settings',
+  products: { list: '/products', search: '/products/search', featured: '/products/featured', flashDeals: '/products/flash-deals', bestSelling: '/products/best-selling', detail: (id: string) => `/products/${id}` },
+  categories: { list: '/categories', detail: (id: string) => `/categories/${id}` },
+  cart: { get: '/cart', add: '/cart/add', remove: (index: number) => `/cart/remove/${index}`, clear: '/cart/clear' },
+  wishlist: { get: '/wishlist', toggle: (id: string) => `/wishlist/${id}` },
+  orders: { list: '/orders', myOrders: '/orders/my-orders', create: '/orders', detail: (id: string) => `/orders/${id}`, uploadProof: (id: string) => `/orders/${id}/payment-proof` },
+  coupons: { validate: '/coupons/validate' },
+  shipping: { zones: '/shipping/zones', calculate: '/shipping/calculate' },
+  currencies: { list: '/currencies' },
+  reviews: { list: (productId: string) => `/reviews/product/${productId}`, create: '/reviews' },
+  upload: { single: '/upload', multiple: '/upload/multiple' },
+  ai: { chat: '/ai/chat' },
+  health: '/health',
+} as const;

@@ -1,0 +1,214 @@
+.settingsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tabsList {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 4px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Hide scrollbar for clean Apk look */
+}
+
+.tabsList::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-bottom: 3px solid transparent;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.tabBtnActive {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  background: rgba(102, 126, 234, 0.08);
+}
+
+.tabPanel {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sectionDesc {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.cardSection {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Provider cards styling */
+.providerCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .providerCards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.providerCard {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  background: var(--bg-tertiary);
+}
+
+.providerCard:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.providerCardActive {
+  border-color: var(--primary);
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.providerIcon {
+  font-size: 28px;
+}
+
+.providerTitle {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.providerDesc {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* Password eye toggle */
+.inputWithAction {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWithAction input {
+  width: 100%;
+  padding-inline-end: 45px !important;
+}
+
+.inputActionBtn {
+  position: absolute;
+  inset-inline-end: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color var(--transition-fast);
+}
+
+.inputActionBtn:hover {
+  color: var(--text-primary);
+}
+
+/* Beautiful custom toast notification */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  inset-inline-end: 24px;
+  z-index: 9999;
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.toastSuccess {
+  border-left-color: #10b981;
+  color: #10b981;
+}
+
+.toastError {
+  border-left-color: var(--error);
+  color: var(--error);
+}
+
+.toastInfo {
+  border-left-color: var(--primary);
+  color: var(--text-primary);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
