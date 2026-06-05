@@ -47,16 +47,16 @@ The application is built to production standards using the **Principle of Least 
 
 ```mermaid
 graph TD
-    subgraph Client Layer
+    subgraph client_layer ["Client Layer"]
         FE[Next.js Frontend Website]
         MB[Expo React Native App]
     end
 
-    subgraph API Gateway / BFF
+    subgraph api_gateway ["API Gateway / BFF"]
         NG[Nginx / CORS & Reverse Proxy]
     end
 
-    subgraph Backend Services [NestJS Core API]
+    subgraph backend_services ["NestJS Core API"]
         Auth[Auth Module / JWT]
         Users[Users & Profile Module]
         Prod[Products & Categories Module]
@@ -67,14 +67,14 @@ graph TD
         AI[AI Assistant Module / OpenRouter]
     end
 
-    subgraph Database Layer
+    subgraph database_layer ["Database Layer"]
         DB[(MongoDB Database)]
     end
 
     FE -->|HTTP / JWT| NG
     MB -->|HTTP / JWT| NG
-    NG --> Backend Services
-    Backend Services <--> DB
+    NG --> backend_services
+    backend_services <--> DB
     Notif -->|SMTP / OAuth2| Gmail[Gmail / Mail Servers]
     Pay -->|HTTP POST| Telegram[Telegram Bot API]
     AI -->|OpenRouter API| LLM[Google Gemini 2.0 / LLM]
