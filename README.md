@@ -1,4 +1,4 @@
-<h1 align="center">✦ Alaadin E-Commerce Platform</h1>
+<h1 align="center">✦ Alaadin E-Commerce Platform ✦</h1>
 
 <p align="center">
   <a href="https://nestjs.com/"><img src="https://img.shields.io/badge/Backend-NestJS%2011-e0234e?style=for-the-badge&logo=nestjs" alt="NestJS" /></a>
