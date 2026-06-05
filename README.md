@@ -187,6 +187,18 @@ docker-compose up --build
    npx expo start
    ```
 
+### 🚀 Running Next.js Frontend in Production with PM2
+To keep the frontend running persistently in the background on the host:
+1. Build the production assets:
+   ```bash
+   cd frontend
+   npm run build
+   ```
+2. Start the process using PM2:
+   ```bash
+   pm2 start npm --name "alaadin-ecommerce-frontend" -- run start
+   ```
+
 ---
 
 ## 📈 Database Seeding & Mock Products
