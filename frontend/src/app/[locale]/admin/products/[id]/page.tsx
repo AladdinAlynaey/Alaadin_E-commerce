@@ -31,7 +31,11 @@ export default function AdminEditProductPage() {
 
   useEffect(() => {
     // Fetch categories
-    api.get<any[]>('/categories').then(setCategories).catch(() => {});
+    api.get<any[]>('/categories/tree-flat')
+      .then(setCategories)
+      .catch(() => {
+        api.get<any[]>('/categories').then(setCategories).catch(() => {});
+      });
 
     // Fetch product details
     if (productId) {
@@ -128,10 +132,14 @@ export default function AdminEditProductPage() {
             <div className="input-group"><label>Description (EN)</label><textarea className="input" rows={3} value={form.description.en} onChange={e => u('description', {...form.description, en: e.target.value})} /></div>
           </div>
           <div className="input-group" style={{ marginTop: 16 }}>
-            <label>Category</label>
+            <label>{locale === 'ar' ? 'التصنيف' : 'Category'}</label>
             <select className="input" value={form.category} onChange={e => u('category', e.target.value)}>
-              <option value="">Select</option>
-              {categories.map(c => <option key={c._id} value={c._id}>{c.name?.[locale]}</option>)}
+              <option value="">{locale === 'ar' ? 'اختر تصنيفاً' : 'Select Category'}</option>
+              {categories.map(c => (
+                <option key={c._id} value={c._id}>
+                  {'\u00A0'.repeat((c.depth || 0) * 4)}{c.depth > 0 ? '↳ ' : ''}{c.name?.[locale]}
+                </option>
+              ))}
             </select>
           </div>
         </div>

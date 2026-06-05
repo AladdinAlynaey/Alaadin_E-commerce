@@ -3,10 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Product, ProductDocument } from './product.schema';
 import { PaginationDto } from '../../common/dto/pagination.dto';
+import { CategoriesService } from '../categories/categories.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) {}
+  constructor(
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    private categoriesService: CategoriesService,
+  ) {}
 
   async create(data: Partial<Product>): Promise<ProductDocument> {
     const totalStock = data.variants?.reduce((sum, v) => sum + (v.stock || 0), 0) || 0;
@@ -45,7 +49,14 @@ export class ProductsService {
     if (search) {
       filter.$text = { $search: search };
     }
-    if (category) filter.category = new Types.ObjectId(category);
+    if (category) {
+      try {
+        const descendantIds = await this.categoriesService.getDescendantIds(category);
+        filter.category = { $in: descendantIds.map(id => new Types.ObjectId(id)) };
+      } catch (err) {
+        filter.category = new Types.ObjectId(category);
+      }
+    }
     if (minPrice !== undefined) filter[`price.${currency}`] = { ...filter[`price.${currency}`], $gte: minPrice };
     if (maxPrice !== undefined) filter[`price.${currency}`] = { ...filter[`price.${currency}`], $lte: maxPrice };
     if (size) filter['variants.size'] = size;

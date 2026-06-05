@@ -24,11 +24,13 @@ export default function HomePage() {
   const [bestSelling, setBestSelling] = useState<any[]>([]);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
   const [selectedFilter, setSelectedFilter] = useState('all');
+  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
     api.get<any[]>('/products/featured?limit=8').then(setFeatured).catch(() => {});
     api.get<any[]>('/products/flash-deals?limit=4').then(setFlashDeals).catch(() => {});
     api.get<any[]>('/products/best-selling?limit=8').then(setBestSelling).catch(() => {});
+    api.get<any[]>('/categories/tree-flat').then(setCategories).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -52,9 +54,9 @@ export default function HomePage() {
     try {
       await api.post(`/wishlist/${productId}`, {}, token);
       setWishlistIds(prev => 
-        prev.includes(productId) 
-          ? prev.filter(id => id !== productId)
-          : [...prev, productId]
+          prev.includes(productId) 
+            ? prev.filter(id => id !== productId)
+            : [...prev, productId]
       );
     } catch (err) {
       console.error(err);
@@ -62,6 +64,22 @@ export default function HomePage() {
   };
 
   const name = (item: any) => item?.name?.[locale] || item?.name?.en || '';
+
+  const matchCategory = (productCategory: any, filterId: string): boolean => {
+    if (filterId === 'all') return true;
+    if (!productCategory) return false;
+    const catId = typeof productCategory === 'string' ? productCategory : (productCategory._id || productCategory.key);
+    if (String(catId).toLowerCase() === filterId.toLowerCase()) return true;
+
+    let current = categories.find(c => String(c._id) === String(catId));
+    while (current) {
+      const pId = current.parent?._id || current.parent;
+      if (!pId) break;
+      if (String(pId).toLowerCase() === filterId.toLowerCase()) return true;
+      current = categories.find(c => String(c._id) === String(pId));
+    }
+    return false;
+  };
 
   return (
     <>
@@ -90,12 +108,26 @@ export default function HomePage() {
         <section className={`section container`}>
           <h2 className="section-title">{t('categoriesTitle')}</h2>
           <div className={styles.categories}>
-            {[
+            {categories.filter(c => !c.parent || c.depth === 0).map(cat => {
+              const nameLower = (cat.name?.en || '').toLowerCase();
+              let icon = '📦';
+              if (nameLower.includes('men')) icon = '👔';
+              else if (nameLower.includes('women')) icon = '👗';
+              else if (nameLower.includes('kid') || nameLower.includes('boy') || nameLower.includes('girl')) icon = '🧒';
+              else if (nameLower.includes('shoe') || nameLower.includes('footwear')) icon = '👟';
+              else if (nameLower.includes('bag') || nameLower.includes('accessory')) icon = '👜';
+
+              return (
+                <a key={cat._id} href={`/${locale}/products?category=${cat._id}`} className={styles.categoryCard}>
+                  <span className={styles.categoryIcon}>{icon}</span>
+                  <span className={styles.categoryLabel}>{cat.name?.[locale]}</span>
+                </a>
+              );
+            })}
+            {categories.filter(c => !c.parent || c.depth === 0).length === 0 && [
               { key: 'men', icon: '👔', label: tc('men') },
               { key: 'women', icon: '👗', label: tc('women') },
               { key: 'kids', icon: '🧒', label: tc('kids') },
-              { key: 'new', icon: '✨', label: tc('newArrivals') },
-              { key: 'best', icon: '🔥', label: tc('bestSelling') },
             ].map(cat => (
               <a key={cat.key} href={`/${locale}/products?category=${cat.key}`} className={styles.categoryCard}>
                 <span className={styles.categoryIcon}>{cat.icon}</span>
@@ -114,26 +146,27 @@ export default function HomePage() {
 
           {/* Dynamic Category Filter Bar (APK layout style) */}
           <div className={styles.filterBar}>
-            {[
-              { key: 'all', label: locale === 'ar' ? 'الكل' : 'All' },
-              { key: 'men', label: tc('men') },
-              { key: 'women', label: tc('women') },
-              { key: 'kids', label: tc('kids') },
-            ].map(tab => (
+            <button 
+              className={`${styles.filterTab} ${selectedFilter === 'all' ? styles.filterTabActive : ''}`}
+              onClick={() => setSelectedFilter('all')}
+            >
+              {locale === 'ar' ? 'الكل' : 'All'}
+            </button>
+            {categories.filter(c => !c.parent || c.depth === 0).map(tab => (
               <button 
-                key={tab.key} 
-                className={`${styles.filterTab} ${selectedFilter === tab.key ? styles.filterTabActive : ''}`}
-                onClick={() => setSelectedFilter(tab.key)}
+                key={tab._id} 
+                className={`${styles.filterTab} ${selectedFilter === tab._id ? styles.filterTabActive : ''}`}
+                onClick={() => setSelectedFilter(tab._id)}
               >
-                {tab.label}
+                {tab.name?.[locale]}
               </button>
             ))}
           </div>
 
           <div className="grid grid-4">
             {(featured.length > 0 ? featured : Array.from({length: 8}, (_, i) => {
-              const categories = ['men', 'women', 'kids', 'new'];
-              const cat = categories[i % categories.length];
+              const demoCats = ['men', 'women', 'kids', 'new'];
+              const cat = demoCats[i % demoCats.length];
               return {
                 _id: `demo-${i}`,
                 name: { 
@@ -145,13 +178,8 @@ export default function HomePage() {
                 ratings: { average: 4.5, count: 12 },
                 category: cat,
               };
-            })).filter((product: any) => {
-              if (selectedFilter === 'all') return true;
-              const prodCat = product.category || product.categoryKey || '';
-              return typeof prodCat === 'string' 
-                ? prodCat.toLowerCase() === selectedFilter 
-                : prodCat.key?.toLowerCase() === selectedFilter || prodCat.name?.en?.toLowerCase() === selectedFilter;
-            }).map((product: any) => (
+            })).filter((product: any) => matchCategory(product.category, selectedFilter))
+            .map((product: any) => (
               <ProductCard
                 key={product._id}
                 product={product}

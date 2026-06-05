@@ -11,6 +11,7 @@ export class CategoriesController {
 
   @Get() findAll() { return this.categoriesService.findAll(); }
   @Get('tree') getTree() { return this.categoriesService.getTree(); }
+  @Get('tree-flat') getFlatTree() { return this.categoriesService.getFlatTree(true); }
   @Get(':id') findOne(@Param('id') id: string) { return this.categoriesService.findById(id); }
 
   @Post()

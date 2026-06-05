@@ -43,4 +43,45 @@ export class CategoriesService {
     await this.categoryModel.findByIdAndDelete(id);
     await this.categoryModel.updateMany({ parent: id }, { parent: null });
   }
+
+  async getFlatTree(includeInactive = false): Promise<any[]> {
+    const filter = includeInactive ? {} : { isActive: true };
+    const categories = await this.categoryModel.find(filter).populate('parent').sort({ order: 1 }).lean();
+    return this.flattenCategories(categories);
+  }
+
+  private flattenCategories(categories: any[], parentId: any = null, depth = 0): any[] {
+    let result: any[] = [];
+    const level = categories.filter(c => {
+      const pId = c.parent?._id || c.parent;
+      return String(pId || '') === String(parentId || '');
+    });
+
+    for (const cat of level) {
+      result.push({ ...cat, depth });
+      result = result.concat(this.flattenCategories(categories, cat._id, depth + 1));
+    }
+    return result;
+  }
+
+  async getDescendantIds(categoryId: string): Promise<string[]> {
+    const categories = await this.categoryModel.find({ isActive: true }).lean();
+    const ids: string[] = [categoryId];
+
+    const findChildren = (parentId: string) => {
+      for (const cat of categories) {
+        const pId = cat.parent?._id || cat.parent;
+        if (pId && String(pId) === String(parentId)) {
+          const childIdStr = String(cat._id);
+          if (!ids.includes(childIdStr)) {
+            ids.push(childIdStr);
+            findChildren(childIdStr);
+          }
+        }
+      }
+    };
+
+    findChildren(categoryId);
+    return ids;
+  }
 }
