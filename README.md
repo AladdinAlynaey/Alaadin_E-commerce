@@ -1,11 +1,13 @@
-# ✦ Alaadin E-Commerce Platform | منصة علاء الدين للتجارة الإلكترونية
+<h1 align="center">✦ Alaadin E-Commerce Platform | منصة علاء الدين للتجارة الإلكترونية</h1>
 
-[![NestJS](https://img.shields.io/badge/Backend-NestJS%2011-e0234e?style=for-the-badge&logo=nestjs)](https://nestjs.com/)
-[![Next.js](https://img.shields.io/badge/Frontend-Next.js%2016-000000?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![Expo](https://img.shields.io/badge/Mobile-Expo%20%2F%20React%20Native-000020?style=for-the-badge&logo=expo)](https://expo.dev/)
-[![MongoDB](https://img.shields.io/badge/Database-MongoDB%207-47a248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
-[![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Docker](https://img.shields.io/badge/Container-Docker-2496ed?style=for-the-badge&logo=docker)](https://www.docker.com/)
+<p align="center">
+  <a href="https://nestjs.com/"><img src="https://img.shields.io/badge/Backend-NestJS%2011-e0234e?style=for-the-badge&logo=nestjs" alt="NestJS" /></a>
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Frontend-Next.js%2016-000000?style=for-the-badge&logo=next.js" alt="Next.js" /></a>
+  <a href="https://expo.dev/"><img src="https://img.shields.io/badge/Mobile-Expo%20%2F%20React%20Native-000020?style=for-the-badge&logo=expo" alt="Expo" /></a>
+  <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/Database-MongoDB%207-47a248?style=for-the-badge&logo=mongodb" alt="MongoDB" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/Language-TypeScript-3178c6?style=for-the-badge&logo=typescript" alt="TypeScript" /></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Container-Docker-2496ed?style=for-the-badge&logo=docker" alt="Docker" /></a>
+</p>
 
 A modern, highly secure, bilingual (Arabic-first & English) e-commerce system built for premium performance, smooth responsiveness, and ultimate security. The platform includes a robust **NestJS API Backend**, an interactive **Next.js Web Frontend** mimicking native mobile app experiences, and a **Cross-Platform React Native Mobile App** powered by Expo.
 
