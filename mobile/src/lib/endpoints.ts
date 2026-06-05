@@ -1,0 +1,15 @@
+export const API_ENDPOINTS = {
+  auth: { login: '/auth/login', register: '/auth/register', logout: '/auth/logout' },
+  users: { profile: '/users/profile' },
+  products: { list: '/products', search: '/products/search', featured: '/products/featured', flashDeals: '/products/flash-deals', bestSelling: '/products/best-selling', detail: (id: string) => `/products/${id}` },
+  categories: { list: '/categories' },
+  cart: { get: '/cart', add: '/cart/add', remove: (i: number) => `/cart/remove/${i}`, clear: '/cart/clear' },
+  wishlist: { get: '/wishlist', toggle: (id: string) => `/wishlist/${id}` },
+  orders: { myOrders: '/orders/my-orders', create: '/orders', detail: (id: string) => `/orders/${id}` },
+  coupons: { validate: '/coupons/validate' },
+  shipping: { zones: '/shipping/zones' },
+  currencies: { list: '/currencies' },
+  reviews: { list: (pid: string) => `/reviews/product/${pid}`, create: '/reviews' },
+  upload: { single: '/upload' },
+  ai: { chat: '/ai/chat' },
+};

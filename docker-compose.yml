@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:7
+    container_name: eco-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE:-ecommerce}
+    networks:
+      - eco-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: eco-backend
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-5030}:5030"
+    volumes:
+      - ./backend/src:/app/src
+      - ./uploads:/app/uploads
+      - /app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - eco-network
+    command: npm run start:dev
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  eco-network:
+    driver: bridge

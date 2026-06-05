@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: eco-mongo-prod
+    restart: always
+    volumes:
+      - mongo_data_prod:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE:-ecommerce}
+    networks:
+      - eco-network-prod
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: eco-backend-prod
+    restart: always
+    ports:
+      - "${API_PORT:-5030}:5030"
+    volumes:
+      - ./uploads:/app/uploads
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    networks:
+      - eco-network-prod
+    command: node dist/main.js
+
+volumes:
+  mongo_data_prod:
+    driver: local
+
+networks:
+  eco-network-prod:
+    driver: bridge
